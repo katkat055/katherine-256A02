@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pizza Order</title>
+  </head>
+  <body>
+    <h2>Order a Pizza</h2>
+    <form action="/create" , method="post">
+      <div>
+        {{ form.pizzatype.label }}: {{ form.pizzatype }} <br /><br />
+        {{ form.crust.label }}: {{ form.crust }} <br /><br />
+        {{ form.size.label }}: {{ form.size }} <br /><br />
+        {{ form.quantity.label }}: {{ form.quantity }}<br /><br />
+        {{ form.price.label }}: {{ form.price }}<br /><br />
+        {{ form.date.label }}: {{ form.date }}<br /><br />
+        {{ form.submit }}
+      </div>
+    </form>
+  </body>
+</html>
