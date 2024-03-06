@@ -1,3 +1,5 @@
+import json
+import os
 from flask import Flask, redirect, render_template, request, session, url_for
 from CreateUser import CreateUser
 from PizzaOrder import PizzaOrder
@@ -31,6 +33,28 @@ def create():
     form = CreateUser()
     if request.method == "GET":
         return render_template("createuser.html", form=form)
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        role = request.form.get("role")
+        
+        users = []
+        new_id = 0
+        if os.path.exists("./data/users.json") and os.path.getsize("./data/users.json") > 0:
+            with open("./data/users.json", "r") as file:
+                users = json.load(file)
+            max_id = max(users, key=lambda x: x["id"])["id"]
+            new_id = max_id + 1
+        user_info = {
+            "id": new_id,
+            "email": email,
+            "password": password,
+            "role": role
+        }
+        users.append(user_info)
+        with open("./data/users.json", "w") as file:
+            json.dump(users, file, indent=4)
+        return "User Added"
     
 @app.route("/pizza", methods=["GET", "POST"])
 def pizza():
