@@ -10,7 +10,7 @@ def check_login(email, password):
     return email and password
 
 @app.route("/")
-def server_status():
+def home():
     return "Server is up and running"
 
 @app.route("/login", methods=["GET", "POST"])
@@ -39,7 +39,7 @@ def create():
         role = request.form.get("role")
         
         users = []
-        new_id = 0
+        new_id = 1
         if os.path.exists("./data/users.json") and os.path.getsize("./data/users.json") > 0:
             with open("./data/users.json", "r") as file:
                 users = json.load(file)
@@ -63,6 +63,34 @@ def pizza():
     form = PizzaOrder()
     if request.method == "GET":
         return render_template("pizzaorder.html", form=form)
+    if request.method == "POST":
+        pizzatype = request.form.get("pizzatype")
+        crust = request.form.get("crust")
+        size = request.form.get("size")
+        quantity = request.form.get("quantity")
+        price = request.form.get("price")
+        date = request.form.get("date")
+        
+        orders = []
+        pizza_id = 1
+        if os.path.exists("./data/pizzaorders.json") and os.path.getsize("./data/pizzaorders.json") > 0:
+            with open("./data/pizzaorders.json", "r") as file:
+                orders = json.load(file)
+            max_id = max(orders, key=lambda x: x["id"])["id"]
+            pizza_id = max_id + 1
+        order_info = {
+            "id": pizza_id,
+            "type": pizzatype,
+            "crust": crust,
+            "size": size,
+            "quantity": quantity,
+            "price": price,
+            "date": date
+        }
+        orders.append(order_info)
+        with open("./data/pizzaorders.json", "w") as file:
+            json.dump(orders, file, indent=4)
+        return redirect(url_for("home"))
     
 @app.route("/logout/")
 def logout():
