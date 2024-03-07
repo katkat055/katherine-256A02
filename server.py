@@ -9,9 +9,17 @@ app = Flask(__name__)
 def check_login(email, password):
     return email and password
 
+def sort_by_date(order):
+    return order['date'] 
+
 @app.route("/")
 def home():
-    return "Server is up and running"
+    # if "login" not in session:
+    #     return redirect(url_for("login"))
+    with open("./data/pizzaorders.json") as file:
+        orders = json.load(file)
+        orders_sorted = sorted(orders, key=sort_by_date)
+        return render_template("sortedorders.html", orders=orders_sorted)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

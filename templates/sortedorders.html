@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders Sorted</title>
+  </head>
+  <body>
+    {% for order in orders %}
+    <div>
+      <div>Date: {{ order.date }}</div>
+      <div>Type: {{ order.type }}</div>
+      <div>Crust: {{ order.crust }}</div>
+      <div>Size: {{ order.size }}</div>
+      <div>Quantity: {{ order.quantity }}</div>
+      <div>Price: {{ order.price }}</div>
+    </div>
+    {% endfor %}
+  </body>
+</html>
