@@ -54,7 +54,7 @@ def create():
         users.append(user_info)
         with open("./data/users.json", "w") as file:
             json.dump(users, file, indent=4)
-        return "User Added"
+        return redirect(url_for("home"))
     
 @app.route("/pizza", methods=["GET", "POST"])
 def pizza():
