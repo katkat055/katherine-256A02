@@ -6,23 +6,27 @@ from PizzaOrder import PizzaOrder
 
 app = Flask(__name__)
 
-
 def check_login(email, password):
-    return email and password
-
+    with open("./data/users.json", "r") as file:
+        users = json.load(file)
+    for user in users:
+        if user["email"] == email and user["password"] == password:
+            return True
+    return False
 
 def sort_by_date(order):
     return order["date"]
-
 
 @app.route("/")
 def home():
     # if "login" not in session:
     #     return redirect(url_for("login"))
-    with open("./data/pizzaorders.json") as file:
-        orders = json.load(file)
-        orders_sorted = sorted(orders, key=sort_by_date)
-        return render_template("sortedorders.html", orders=orders_sorted)
+    if os.path.exists("./data/pizzaorders.json") and os.path.getsize("./data/pizzaorders.json") > 0:
+        with open("./data/pizzaorders.json") as file:
+            orders = json.load(file)
+            orders_sorted = sorted(orders, key=sort_by_date)
+            return render_template("sortedorders.html", orders=orders_sorted)
+    return "Server up and running"
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -35,6 +39,7 @@ def login():
         if check_login(email, password):
             session["login"] = "login"
             session["email"] = email
+            return redirect(url_for("home"))
         else:
             return redirect(url_for("login"))
 
@@ -48,7 +53,8 @@ def create():
         return render_template("createuser.html", form=form)
     if request.method == "POST":
         email = request.form.get("email")
-        password = request.form.get("password")
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
         role = request.form.get("role")
 
         users = []
@@ -59,10 +65,15 @@ def create():
         ):
             with open("./data/users.json", "r") as file:
                 users = json.load(file)
-            max_id = max(users, key=lambda x: x["id"])["id"]
+            max_id = max(users, key=lambda x: x.get("id", 0)).get("id", 0)
             new_id = max_id + 1
-        user_info = {"id": new_id, "email": email, "password": password, "role": role}
-        users.append(user_info)
+        if password1 == password2:
+            user_info = {"id": new_id, "email": email, "password": password1, "role": role}
+            users.append(user_info)
+        else:
+            message = "Passwords need to match"
+            return render_template("createuser.html", form=form, alert=message)
+        
         with open("./data/users.json", "w") as file:
             json.dump(users, file, indent=4)
         return redirect(url_for("home"))

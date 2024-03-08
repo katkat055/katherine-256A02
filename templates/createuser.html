@@ -6,12 +6,15 @@
     <title>Create User</title>
 </head>
 <body>
+    {% if alert %}
+    <script>alert("{{ alert }}");</script>
+    {% endif %}
     <h2>Create User</h2>
     <form action="/create", method="post">
         <div>
             {{ form.email.label }}: {{ form.email }} <br><br>
-            {{ form.password.label }}: {{ form.password }} <br><br>
-            {{ form.password.label }}: {{ form.password }} <br><br>
+            {{ form.password1.label }}: {{ form.password1 }} <br><br>
+            {{ form.password2.label }}: {{ form.password2 }} <br><br>
             {{ form.role.label }}: {{ form.role }}
             {{ form.submit }}
         </div>
