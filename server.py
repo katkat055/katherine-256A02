@@ -14,7 +14,7 @@ def check_login(email, password):
     for user in users:
         if user["email"] == email and user["password"] == password:
             return True
-    return redirect(url_for("login"))
+    return False
 
 
 def sort_by_date(order):
@@ -129,7 +129,7 @@ def pizza():
         return redirect(url_for("home"))
 
 
-@app.route("/pizza/<int:id>", methods=["GET", "POST"])
+@app.route("/pizza/<int:id>", methods=["GET", "POST", "DELETE"])
 def get_pizza(id):
     # if "login" not in session:
     #     return redirect(url_for("login"))
@@ -157,6 +157,15 @@ def get_pizza(id):
                         json.dump(orders, file, indent=4)
                         file.truncate()
                         return redirect(url_for("home"))
+    if request.method == "DELETE":
+        with open("./data/pizzaorders.json") as file:
+            orders = json.load(file)
+            for order in orders:
+                if order["id"] == id:
+                    orders.remove(order)
+                    with open("./data/pizzaorders.json", "w") as file:
+                        json.dump(orders, file, indent=4)
+                    return redirect(url_for("home"))
 
 
 @app.route("/logout/")
