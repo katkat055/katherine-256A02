@@ -50,9 +50,7 @@
       <input type="text" name="price" value="{{ order.price }}" /><br /><br />
 
       <button type="submit">Save Changes</button>
+      <button><a href="{{ url_for('delete', id=order.id) }}">Delete</a></button>
     </form>
-    <form action="/pizza/{{ order.id }}" method="delete">
-      <button type="submit">Delete</button>
-    </form>  
   </body>
 </html>

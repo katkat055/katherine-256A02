@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete</title>
+  </head>
+  <body>
+    <form action="/delete/{{ order.id }}" method="post">
+      <input type="hidden" name="_method" value="DELETE" />
+      <h3>Confirm to delete</h3>
+      <button type="submit">Confirm Deletion</button>
+      <button><a href="{{ url_for('home')}}">Cancel</a></button>
+    </form>
+  </body>
+</html>

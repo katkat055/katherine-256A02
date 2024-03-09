@@ -23,8 +23,8 @@ def sort_by_date(order):
 
 @app.route("/")
 def home():
-    # if "login" not in session:
-    #     return redirect(url_for("login"))
+    if "login" not in session:
+        return redirect(url_for("login"))
     if (
         os.path.exists("./data/pizzaorders.json")
         and os.path.getsize("./data/pizzaorders.json") > 0
@@ -91,8 +91,8 @@ def create():
 
 @app.route("/pizza", methods=["GET", "POST"])
 def pizza():
-    # if "login" not in session:
-    #     return redirect(url_for("login"))
+    if "login" not in session:
+        return redirect(url_for("login"))
     form = PizzaOrder()
     if request.method == "GET":
         return render_template("pizzaorder.html", form=form)
@@ -131,8 +131,8 @@ def pizza():
 
 @app.route("/pizza/<int:id>", methods=["GET", "POST", "DELETE"])
 def get_pizza(id):
-    # if "login" not in session:
-    #     return redirect(url_for("login"))
+    if "login" not in session:
+        return redirect(url_for("login"))
     form = PizzaOrder()
     if request.method == "GET":
         with open("./data/pizzaorders.json") as file:
@@ -157,7 +157,18 @@ def get_pizza(id):
                         json.dump(orders, file, indent=4)
                         file.truncate()
                         return redirect(url_for("home"))
-    if request.method == "DELETE":
+
+
+@app.route("/delete/<int:id>", methods=["GET", "POST"])
+def delete(id):
+    form = PizzaOrder()
+    if request.method == "GET":
+        with open("./data/pizzaorders.json") as file:
+            orders = json.load(file)
+            for order in orders:
+                if order["id"] == id:
+                    return render_template("delete.html", form=form, order=order)
+    if request.method == "POST":
         with open("./data/pizzaorders.json") as file:
             orders = json.load(file)
             for order in orders:
@@ -165,7 +176,7 @@ def get_pizza(id):
                     orders.remove(order)
                     with open("./data/pizzaorders.json", "w") as file:
                         json.dump(orders, file, indent=4)
-                    return redirect(url_for("home"))
+                    return render_template("confirmdelete.html")
 
 
 @app.route("/logout/")
