@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "pizzatype": "Meat Lovers",
+        "crust": "Deep Dish",
+        "size": "Large",
+        "quantity": "2",
+        "price": "25",
+        "date": "2024-03-19"
+    },
+    {
+        "id": 2,
+        "pizzatype": "Canadian",
+        "crust": "Regular",
+        "size": "Medium",
+        "quantity": "3",
+        "price": "50",
+        "date": "2024-03-07"
+    },
+    {
+        "id": 3,
+        "pizzatype": "Cheese",
+        "crust": "Cauliflower",
+        "size": "Medium",
+        "quantity": "1",
+        "price": "25",
+        "date": "2024-03-21"
+    }
+]

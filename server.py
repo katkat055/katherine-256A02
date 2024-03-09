@@ -5,6 +5,8 @@ from CreateUser import CreateUser
 from PizzaOrder import PizzaOrder
 
 app = Flask(__name__)
+app.secret_key = "cat"
+
 
 def check_login(email, password):
     with open("./data/users.json", "r") as file:
@@ -12,16 +14,21 @@ def check_login(email, password):
     for user in users:
         if user["email"] == email and user["password"] == password:
             return True
-    return False
+    return redirect(url_for("login"))
+
 
 def sort_by_date(order):
     return order["date"]
+
 
 @app.route("/")
 def home():
     # if "login" not in session:
     #     return redirect(url_for("login"))
-    if os.path.exists("./data/pizzaorders.json") and os.path.getsize("./data/pizzaorders.json") > 0:
+    if (
+        os.path.exists("./data/pizzaorders.json")
+        and os.path.getsize("./data/pizzaorders.json") > 0
+    ):
         with open("./data/pizzaorders.json") as file:
             orders = json.load(file)
             orders_sorted = sorted(orders, key=sort_by_date)
@@ -46,8 +53,6 @@ def login():
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
-    # if "login" not in session:
-    #     return redirect(url_for("login"))
     form = CreateUser()
     if request.method == "GET":
         return render_template("createuser.html", form=form)
@@ -68,12 +73,17 @@ def create():
             max_id = max(users, key=lambda x: x.get("id", 0)).get("id", 0)
             new_id = max_id + 1
         if password1 == password2:
-            user_info = {"id": new_id, "email": email, "password": password1, "role": role}
+            user_info = {
+                "id": new_id,
+                "email": email,
+                "password": password1,
+                "role": role,
+            }
             users.append(user_info)
         else:
             message = "Passwords need to match"
             return render_template("createuser.html", form=form, alert=message)
-        
+
         with open("./data/users.json", "w") as file:
             json.dump(users, file, indent=4)
         return redirect(url_for("home"))
@@ -106,7 +116,7 @@ def pizza():
             pizza_id = max_id + 1
         order_info = {
             "id": pizza_id,
-            "type": pizzatype,
+            "pizzatype": pizzatype,
             "crust": crust,
             "size": size,
             "quantity": quantity,
@@ -118,14 +128,35 @@ def pizza():
             json.dump(orders, file, indent=4)
         return redirect(url_for("home"))
 
-@app.route("/pizza/<int:id>")
+
+@app.route("/pizza/<int:id>", methods=["GET", "POST"])
 def get_pizza(id):
-    with open("./data/pizzaorders.json") as file:
-        orders = json.load(file)
-        for order in orders:
-            if order["id"] == id:
-                return render_template("order.html", order=order)
-        return redirect(url_for("home"))
+    # if "login" not in session:
+    #     return redirect(url_for("login"))
+    form = PizzaOrder()
+    if request.method == "GET":
+        with open("./data/pizzaorders.json") as file:
+            orders = json.load(file)
+            for order in orders:
+                if order["id"] == id:
+                    return render_template("order.html", form=form, order=order)
+            return redirect(url_for("home"))
+    if request.method == "POST":
+        with open("./data/pizzaorders.json", "r") as file:
+            orders = json.load(file)
+            for order in orders:
+                if order["id"] == id:
+                    order["date"] = request.form["date"]
+                    order["pizzatype"] = request.form["pizzatype"]
+                    order["crust"] = request.form["crust"]
+                    order["size"] = request.form["size"]
+                    order["quantity"] = request.form["quantity"]
+                    order["price"] = request.form["price"]
+                    with open("./data/pizzaorders.json", "w") as file:
+                        file.seek(0)
+                        json.dump(orders, file, indent=4)
+                        file.truncate()
+                        return redirect(url_for("home"))
 
 
 @app.route("/logout/")

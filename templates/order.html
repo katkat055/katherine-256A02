@@ -6,13 +6,50 @@
     <title>Order</title>
   </head>
   <body>
-    <div>
-      <div>Date: {{ order.date }}</div>
-      <div>Type: {{ order.type }}</div>
-      <div>Crust: {{ order.crust }}</div>
-      <div>Size: {{ order.size }}</div>
-      <div>Quantity: {{ order.quantity }}</div>
-      <div>Price: {{ order.price }}</div>
-    </div>
+    <form action="/pizza/{{ order.id }}" method="post">
+      {{ form.date.label }}
+      <input type="date" name="date" value="{{ order.date }}" /><br /><br />
+
+      {{ form.pizzatype.label }}
+      <select name="pizzatype">
+        <option value="Canadian" {% if order.pizzatype == 'Canadian' %} selected {% endif %}>Canadian</option>
+        <option value="Cheese" {% if order.pizzatype == 'Cheese' %} selected {% endif %}>Cheese</option>
+        <option value="Hawaiian" {% if order.pizzatype == 'Hawaiian' %} selected {% endif %}>Hawaiian</option>
+        <option value="Meat Lovers" {% if order.pizzatype == 'Meat Lovers' %} selected {% endif %}>Meat Lovers</option>
+        <option value="Pepperoni" {% if order.pizzatype == 'Pepperoni' %} selected {% endif %}>Pepperoni</option>
+        <option value="Vegetarian" {% if order.pizzatype == 'Vegetarian' %} selected {% endif %}>Vegetarian</option>
+      </select>
+      <br /><br />
+
+      {{ form.crust.label }}
+      <select name="crust">
+        <option value="Cauliflower" {% if order.crust == 'Cauliflower' %} selected {% endif %}>Cauliflower</option>
+        <option value="Deep Dish" {% if order.crust == 'Deep Dish' %} selected {% endif %}>Deep Dish</option>
+        <option value="Regular" {% if order.crust == 'Regular' %} selected {% endif %}>Regular</option>
+        <option value="Thin Crust" {% if order.crust == 'Thin Crust' %} selected {% endif %}>Thin Crust</option>
+      </select>
+      <br /><br />
+
+      {{ form.size.label }}
+      <select name="size">
+        <option value="Individual" {% if order.size == 'Individual' %} selected {% endif %}>Individual</option>
+        <option value="Small" {% if order.size == 'Small' %} selected {% endif %}>Small</option>
+        <option value="Medium" {% if order.size == 'Medium' %} selected {% endif %}>Medium</option>
+        <option value="Large" {% if order.size == 'Large' %} selected {% endif %}>Large</option>
+      </select>
+      <br /><br />
+
+      {{ form.quantity.label }}
+      <input
+        type="number"
+        name="quantity"
+        value="{{ order.quantity }}"
+      /><br /><br />
+
+      {{ form.price.label }}
+      <input type="text" name="price" value="{{ order.price }}" /><br /><br />
+
+      <button type="submit">Save Changes</button>
+    </form>
   </body>
 </html>
