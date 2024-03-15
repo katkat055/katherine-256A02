@@ -5,7 +5,7 @@ from CreateUser import CreateUser
 from PizzaOrder import PizzaOrder
 
 app = Flask(__name__)
-app.secret_key = "cat"
+app.secret_key = "secret123"
 
 
 def check_login(email, password):
@@ -43,9 +43,10 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
+        role = request.form.get("role")
         if check_login(email, password):
-            session["login"] = "login"
-            session["email"] = email
+            session["login"] = email
+            session["role"] = role
             return redirect(url_for("home"))
         else:
             return redirect(url_for("login"))
