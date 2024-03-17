@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>User Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="post" action="/login">
-        <label for="email">Username:</label>
-        <input type="text" id="email" name="email" required><br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        
-        <input type="submit" value="Login">
-    </form>
-    <br>
-    <div><a href="{{ url_for('create') }}">Create account</a></div>
-</body>
+  </head>
+  <body>
+    <div class="flex justify-center items-center h-screen">
+      <div
+        class="grid place-items-center bg-gray-700 p-10 border rounded-xl text-white w-96"
+      >
+        <h2 class="text-3xl font-bold mb-6">Login</h2>
+        <form method="post" action="/login" class="w-full">
+          <label for="email">Username:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            class="border border-2-black rounded-xl w-full px-3 py-2 mb-4 text-black"
+            required
+          /><br /><br />
+
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="border border-2-black rounded-xl w-full px-3 py-2 mb-4 text-black"
+            required
+          /><br /><br />
+
+          <div class="text-center">
+            <input
+              type="submit"
+              value="Login"
+              class="bg-white hover:bg-gray-900 hover:text-white border-black rounded-xl px-6 py-2 text-black"
+            />
+          </div>
+        </form>
+        <br />
+        <div>
+          <a href="{{ url_for('create') }}" class="underline">Create account</a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

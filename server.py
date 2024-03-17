@@ -130,7 +130,7 @@ def pizza():
         return redirect(url_for("home"))
 
 
-@app.route("/pizza/<int:id>", methods=["GET", "POST", "DELETE"])
+@app.route("/pizza/<int:id>", methods=["GET", "POST"])
 def get_pizza(id):
     if "login" not in session:
         return redirect(url_for("login"))
@@ -162,6 +162,8 @@ def get_pizza(id):
 
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 def delete(id):
+    if "login" not in session:
+        return redirect(url_for("login"))
     form = PizzaOrder()
     if request.method == "GET":
         with open("./data/pizzaorders.json") as file:
@@ -184,6 +186,7 @@ def delete(id):
 def logout():
     if "login" in session:
         session.pop("login")
+        session.pop("role")
     return redirect(url_for("login"))
 
 

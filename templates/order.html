@@ -3,54 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Order</title>
   </head>
   <body>
-    <form action="/pizza/{{ order.id }}" method="post">
-      {{ form.date.label }}
-      <input type="date" name="date" value="{{ order.date }}" /><br /><br />
+    <div class="m-10">
+      <a
+        href="{{ url_for('logout') }}"
+        class="bg-gray-300 hover:bg-gray-600 hover:text-white float-right border rounded-xl px-6 py-2 mb-10"
+        >Logout</a
+      >
+      <form
+        action="/pizza/{{ order.id }}"
+        method="post"
+        class="clear-both flex justify-center"
+      >
+        <div class="bg-gray-300 p-10 border rounded-xl w-96">
+          {{ form.date.label }}
+          <input
+            type="date"
+            name="date"
+            value="{{ order.date }}"
+            class="border rounded-xl p-2 w-full"
+          /><br /><br />
 
-      {{ form.pizzatype.label }}
-      <select name="pizzatype">
-        <option value="Canadian" {% if order.pizzatype == 'Canadian' %} selected {% endif %}>Canadian</option>
-        <option value="Cheese" {% if order.pizzatype == 'Cheese' %} selected {% endif %}>Cheese</option>
-        <option value="Hawaiian" {% if order.pizzatype == 'Hawaiian' %} selected {% endif %}>Hawaiian</option>
-        <option value="Meat Lovers" {% if order.pizzatype == 'Meat Lovers' %} selected {% endif %}>Meat Lovers</option>
-        <option value="Pepperoni" {% if order.pizzatype == 'Pepperoni' %} selected {% endif %}>Pepperoni</option>
-        <option value="Vegetarian" {% if order.pizzatype == 'Vegetarian' %} selected {% endif %}>Vegetarian</option>
-      </select>
-      <br /><br />
+          {{ form.pizzatype.label }}
+          <div class="border rounded-xl p-2 w-full bg-white mb-4">
+            {{ form.pizzatype }}
+          </div>
 
-      {{ form.crust.label }}
-      <select name="crust">
-        <option value="Cauliflower" {% if order.crust == 'Cauliflower' %} selected {% endif %}>Cauliflower</option>
-        <option value="Deep Dish" {% if order.crust == 'Deep Dish' %} selected {% endif %}>Deep Dish</option>
-        <option value="Regular" {% if order.crust == 'Regular' %} selected {% endif %}>Regular</option>
-        <option value="Thin Crust" {% if order.crust == 'Thin Crust' %} selected {% endif %}>Thin Crust</option>
-      </select>
-      <br /><br />
+          {{ form.crust.label }}
+          <div class="border rounded-xl p-2 w-full bg-white mb-4">
+            {{ form.crust }}
+          </div>
 
-      {{ form.size.label }}
-      <select name="size">
-        <option value="Individual" {% if order.size == 'Individual' %} selected {% endif %}>Individual</option>
-        <option value="Small" {% if order.size == 'Small' %} selected {% endif %}>Small</option>
-        <option value="Medium" {% if order.size == 'Medium' %} selected {% endif %}>Medium</option>
-        <option value="Large" {% if order.size == 'Large' %} selected {% endif %}>Large</option>
-      </select>
-      <br /><br />
+          {{ form.size.label }}
+          <div class="border rounded-xl p-2 w-full bg-white mb-4">
+            {{ form.size }}
+          </div>
 
-      {{ form.quantity.label }}
-      <input
-        type="number"
-        name="quantity"
-        value="{{ order.quantity }}"
-      /><br /><br />
+          {{ form.quantity.label }}
+          <div class="border rounded-xl p-2 w-full bg-white mb-4">
+            {{ form.quantity }}
+          </div>
 
-      {{ form.price.label }}
-      <input type="text" name="price" value="{{ order.price }}" /><br /><br />
+          {{ form.price.label }}
+          <input
+            type="text"
+            name="price"
+            value="{{ order.price }}"
+            class="border rounded-xl p-2 w-full mb-4"
+          />
 
-      <button type="submit">Save Changes</button>
-      <button><a href="{{ url_for('delete', id=order.id) }}">Delete</a></button>
-    </form>
+          <button
+            type="submit"
+            class="bg-white hover:bg-gray-900 hover:text-white border-black rounded-xl p-6 py-2"
+          >
+            Save Changes
+          </button>
+          <a
+            href="{{ url_for('delete', id=order.id) }}"
+            class="bg-white hover:bg-gray-900 hover:text-white border-black rounded-xl p-6 py-2"
+            >Delete</a
+          >
+        </div>
+      </form>
+    </div>
   </body>
 </html>

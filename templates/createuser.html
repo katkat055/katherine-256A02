@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Create User</title>
-</head>
-<body>
-    <h2>Create User</h2>
-    <form action="/create", method="post">
-        <div>
-            {{ form.email.label }}: {{ form.email }} <br><br>
-            {{ form.password1.label }}: {{ form.password1 }} <br><br>
-            {{ form.password2.label }}: {{ form.password2 }} <br><br>
-            {{ form.role.label }}: {{ form.role }}
-            {{ form.submit }}
-        </div>
-    </form>
-</body>
+  </head>
+  <body>
+    <div class="flex justify-center items-center h-screen">
+      <div class="grid grid-cols bg-gray-300 p-10 border rounded-xl w-96">
+        <h2 class="text-3xl font-bold mb-6">Create User</h2>
+        <form action="/create" , method="post">
+          <div>
+            <div>{{ form.email.label }}</div>
+            <div
+              class="border border-2-black rounded-xl w-full px-3 py-2 mb-4 bg-white"
+            >
+              {{ form.email }}
+            </div>
+            <div>{{ form.password1.label }}</div>
+            <div
+              class="border border-2-black rounded-xl w-full px-3 py-2 mb-4 bg-white"
+            >
+              {{ form.password1 }}
+            </div>
+            <div>{{ form.password2.label }}</div>
+            <div
+              class="border border-2-black rounded-xl w-full px-3 py-2 mb-4 bg-white"
+            >
+              {{ form.password2 }}
+            </div>
+            <div>{{ form.role.label }}</div>
+            <div class="mb-4">{{ form.role }}</div>
+            <div class="flex justify-center items-center text-center">
+              <div
+                class="bg-white hover:bg-gray-900 hover:text-white border-black rounded-xl px-6 py-2 text-black w-1/2"
+              >
+                {{ form.submit }}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

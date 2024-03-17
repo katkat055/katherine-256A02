@@ -3,19 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Orders Sorted</title>
   </head>
   <body>
-    {% for order in orders %}
-    <div>
-      <div>Date: {{ order.date }}</div>
-      <div>Type: {{ order.pizzatype }}</div>
-      <div>Crust: {{ order.crust }}</div>
-      <div>Size: {{ order.size }}</div>
-      <div>Quantity: {{ order.quantity }}</div>
-      <div>Price: {{ order.price }}</div>
-      <div><a href="/pizza/{{ order.id }}">View Order</a></div>
+    <div class="m-10">
+      <div class="float-right mb-6">
+        <button>
+          <a
+            href="{{ url_for('pizza') }}"
+            class="bg-gray-300 hover:bg-gray-600 hover:text-white float-right border rounded-xl px-6 py-2"
+            >Create New Order</a
+          >
+        </button>
+        <button>
+          <a
+            href="{{ url_for('logout') }}"
+            class="bg-gray-300 hover:bg-gray-600 hover:text-white float-right border rounded-xl px-6 py-2"
+            >Logout</a
+          >
+        </button>
+      </div>
+      <div class="clear-both grid grid-none md:grid-cols-4 gap-6">
+        {% for order in orders %}
+        <div class="border rounded-xl p-4 bg-gray-300">
+          <div>Date: {{ order.date }}</div>
+          <div>Type: {{ order.pizzatype }}</div>
+          <div>Crust: {{ order.crust }}</div>
+          <div>Size: {{ order.size }}</div>
+          <div>Quantity: {{ order.quantity }}</div>
+          <div>Price: {{ order.price }}</div>
+          <div class="underline">
+            <a href="/pizza/{{ order.id }}">View Order</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
   </body>
 </html>
